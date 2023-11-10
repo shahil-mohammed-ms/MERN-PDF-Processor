@@ -44,6 +44,10 @@ var upload = multer({
 // for managing pdf upload to storage
 router.post('/fileupload',upload.single('file'),pdfModule.fileUpload)
 
+
+
+
+
 //for converting pdf to images
 
 const pdfDir = path.resolve(__dirname, '..', '..', 'public', 'files', 'pdf');
@@ -80,8 +84,6 @@ router.post('/uploadpdf', uploadpdf.single('pdfFile'), async (req, res) => {
   return res.status(200).json({ message: 'File uploaded and converted successfully', FileDatas });
 
 
-  // // Send a response to the client
-  // return res.status(200).send('File uploaded and converted successfully.');
 });
 
 const convertToImages = async ( pdfPath, outputDir, filenameunq) => {
@@ -102,9 +104,15 @@ const convertToImages = async ( pdfPath, outputDir, filenameunq) => {
     const result = await pdfPoppler.convert(pdfPath, options)
 
     // Create an array of image names based on page numbers
-    const imageNames = Array.from({ length: pageInfo.pages }, (_, index) =>
-      `${uniqueFilename}-${index + 1}.png`
-    );
+    // const imageNames = Array.from({ length: pageInfo.pages }, (_, index) =>
+    //   `${uniqueFilename}-${index + 1}.png`
+    // );
+    const padWithZero = (number) => (number < 10 ? `0${number}` : number);
+
+const imageNames = Array.from({ length: pageInfo.pages }, (_, index) =>
+  `${uniqueFilename}-${padWithZero(index + 1)}.png`
+);
+
     return imageNames
   
   } catch (error) {

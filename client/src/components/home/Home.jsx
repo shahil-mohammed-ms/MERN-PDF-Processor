@@ -7,12 +7,13 @@ import './Home.css'
 
 function Home() {
   const [addLogo,setAddLogo] = useState(true)
-  const [imgUrl,setImgUrl] = useState([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
+  const [loading,setLoading] = useState(true)
+  const [imgUrl,setImgUrl] = useState([])
   const [checkboxStates, setCheckboxStates] = useState(Array(imgUrl.length).fill(false));
   const [checkboxNo, setCheckboxNo] = useState([]);
   const [newImgUrl,setNewImgUrl] = useState([])
-
-  const [pageNo,setPageNo] = useState(0)
+  const [allImagesLoaded, setAllImagesLoaded] = useState(false);
+  
   const fileInputRef = useRef(null);
 
   const handleIconClick = () => {
@@ -24,6 +25,8 @@ function Home() {
   
 
   const handleFileChange = async (e) => {
+    setAddLogo(false)
+   
     const selectedFile = e.target.files[0];
 
     const formData = new FormData();
@@ -36,8 +39,12 @@ function Home() {
           'Content-Type': 'multipart/form-data',
         },
       });
-      setAddLogo(false)
-     setImgUrl(response.data.FileDatas)
+      
+      
+    setImgUrl(response.data.FileDatas)
+     setLoading(false)
+        // Set a flag when all images are loaded
+        setAllImagesLoaded(true);
       console.log('File uploaded successfully:', response.data);
     } catch (error) {
       console.error('Error uploading file:', error);
@@ -86,7 +93,7 @@ setNewImgUrl(updatedImgUrl)
       <div className="home-Content">
      
      {
-!addLogo?( <div className="createPdf">
+addLogo?( <div className="createPdf">
   <IconPlusCircle onClick={handleIconClick} />
   <input
         type='file'
@@ -99,7 +106,7 @@ setNewImgUrl(updatedImgUrl)
 </div> ):(
   <div className="EditPdf">
 {
-!addLogo? ( <div className="loadingicon">
+loading? ( <div className="loadingicon">
   loading.....
 </div> ):
 ( <div className="pdfImg">
@@ -118,10 +125,16 @@ setNewImgUrl(updatedImgUrl)
             />
         .{checkboxNo.indexOf(index) !== -1 ? checkboxNo.indexOf(index) + 1 : ''} 
       </span>
-{/* <img key={index} src={`http://localhost:5000/image/files/image/${url}`} alt="" className="pdfImgs" /> */}
-<img key={index} src={`http://localhost:5000/image/files/image/1699619717954.pdf-02.png`} alt="" className="pdfImgs" />
+<img key={index} src={`http://localhost:5000/image/files/image/${url}`} alt="" className="pdfImgs" 
+ onLoad={() => console.log(`Image ${index + 1} loaded`)} />
+{/* <img key={index} src={`http://localhost:5000/image/files/image/1699619717954.pdf-02.png`} alt="" className="pdfImgs" /> */}
 </div>
 ))}
+
+<div className='btnbox'>
+  <button className="cancelButton">Cancel</button>
+  <button className="createButton">Create</button>
+</div>
 </div> )
 
 }
@@ -131,7 +144,11 @@ setNewImgUrl(updatedImgUrl)
 
      }
   
+  
       </div>
+
+      
+     
 
     </div>
   )

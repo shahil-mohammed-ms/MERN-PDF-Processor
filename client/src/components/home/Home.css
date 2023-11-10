@@ -2,6 +2,11 @@
 height: 100vh;
   width: 100vw;
   background-color: lightgray;
+  
+}
+.home-Content{
+  
+
 }
 .createPdf{
 display: flex;
@@ -48,4 +53,55 @@ margin-top: 0.3em;
 .checkbox{
   height: 15px !important;
   width: 15px !important;
+}
+.btnbox{
+z-index: 1;
+height: 35px;
+width: 100%;
+display: flex;
+justify-content: center;
+padding: 2em;
+
+}
+/* Styles for the cancel button */
+.cancelButton {
+  background-color: red;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Add transitions for background color and transform */
+}
+
+/* Change background color on hover */
+.cancelButton:hover {
+  background-color: darkred;
+}
+
+/* Scale down on click */
+.cancelButton:active {
+  transform: scale(0.95);
+}
+
+/* Styles for the create button */
+.createButton {
+  background-color: blue;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 10px; /* Add some margin to separate the buttons */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Add transitions for background color and transform */
+}
+
+/* Change background color on hover */
+.createButton:hover {
+  background-color: darkblue;
+}
+
+/* Scale down on click */
+.createButton:active {
+  transform: scale(0.95);
 }
