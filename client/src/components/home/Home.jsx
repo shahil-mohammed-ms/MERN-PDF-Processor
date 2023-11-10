@@ -10,6 +10,7 @@ function Home() {
   const [imgUrl,setImgUrl] = useState([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15])
   const [checkboxStates, setCheckboxStates] = useState(Array(imgUrl.length).fill(false));
   const [checkboxNo, setCheckboxNo] = useState([]);
+  const [newImgUrl,setNewImgUrl] = useState([])
 
   const [pageNo,setPageNo] = useState(0)
   const fileInputRef = useRef(null);
@@ -49,17 +50,26 @@ function Home() {
 
 const handleCheckboxChange = (index,e) => {
 
-console.log(e.target.value)
+console.log('imgUrl',e.target.value)
+
   console.log(!checkboxStates[index])
   console.log(index)
   const isChecked = e.target.checked;
 
     if (isChecked) {
       // If checkbox is checked, add the index to the array
+
       setCheckboxNo([...checkboxNo, index]);
+      const updatedImgUrl = [...newImgUrl, e.target.value];
+      console.log(updatedImgUrl)
+setNewImgUrl(updatedImgUrl);
     } else {
       // If checkbox is unchecked, remove the index from the array
       setCheckboxNo(checkboxNo.filter(item => item !== index));
+      const ImgToRemove = e.target.value;
+const updatedImgUrl = newImgUrl.filter((number) => number !== ImgToRemove);
+console.log(updatedImgUrl)
+setNewImgUrl(updatedImgUrl)
     }
 
   setCheckboxStates((prevStates) => {
