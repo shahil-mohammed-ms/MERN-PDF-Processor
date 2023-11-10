@@ -10,3 +10,42 @@ height: 100vh;
 justify-content: center;
 align-items: center;
 }
+
+.EditPdf{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+}
+
+.pdfImg{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+flex-wrap: wrap;
+background-color: lightgray;
+gap: 10px;
+padding: 20px;
+justify-content: flex-start;
+}
+
+.pdfImageboxes{
+  height: 350px;
+  width: 300px;
+  border: 1px solid black;
+  
+}
+.pdfImgs{
+
+  height: 100%;
+  width: 100%;
+}
+.imgcheckbox{
+position: absolute;
+margin-left: 0.2em;
+margin-top: 0.3em;
+
+}
+.checkbox{
+  height: 15px !important;
+  width: 15px !important;
+}
