@@ -10,11 +10,13 @@ height: 100vh;
 }
 .createPdf{
 display: flex;
+flex-direction: column;
 height: 100vh;
   width: 100vw;
 justify-content: center;
 align-items: center;
 }
+
 
 .EditPdf{
   height: 100vh;
@@ -104,4 +106,67 @@ padding: 2em;
 /* Scale down on click */
 .createButton:active {
   transform: scale(0.95);
+}
+
+.loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+.loader {
+  border: 8px solid #3498db;
+  border-radius: 50%;
+  border-top: 8px solid #f4f4f4;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-screen p {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #333;
+}
+
+.main-content {
+  /* Your main content styles */
+  padding: 20px;
+}
+
+
+
+
+.iconLogoplus {
+  cursor: pointer;
+  display: inline-block;
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 50%;
+  transition: background-color 0.3s, color 0.3s, transform 0.1s;
+
+  /* Add other styles as needed */
+}
+
+.iconLogoplus:hover {
+  background-color: #3498db26;
+  color: #fff;
+  border: 2px solid #3498db26;
+}
+
+.iconLogoplus:active {
+  transform: scale(0.95); /* Add a slight scale effect on pressing */
 }

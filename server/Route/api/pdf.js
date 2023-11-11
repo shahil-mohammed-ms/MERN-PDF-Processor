@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const pdfModule = require('../../Modules/pdf/pdfController')
+
 const fs = require('fs');
 const pdfPoppler = require('pdf-poppler');
 
@@ -60,66 +61,80 @@ fs.mkdirSync(imageDir, { recursive: true });
 const storagepdf = multer.memoryStorage();
 const uploadpdf = multer({ storage: storagepdf });
 
-router.post('/uploadpdf', uploadpdf.single('pdfFile'), async (req, res) => {
-  // Assuming the input field for the file is named 'pdfFile'
-  console.log(req.file);
+router.post('/uploadpdf', uploadpdf.single('pdfFile'),pdfModule.ConvertPdfToImage)
 
-  // Check if a file was provided
-  if (!req.file) {
-    return res.status(400).send('No file uploaded.');
-  }
+// router.post('/uploadpdf', uploadpdf.single('pdfFile'), async (req, res) => {
+//   // Assuming the input field for the file is named 'pdfFile'
+//   console.log(req.file);
 
-  // Save the uploaded PDF to the pdfDir
-  const pdfFilePath = path.join(pdfDir, 'uploaded.pdf');
-  fs.writeFileSync(pdfFilePath, req.file.buffer);
+//   // Check if a file was provided
+//   if (!req.file) {
+//     return res.status(400).send('No file uploaded.');
+//   }
 
-  // Get the original filename from the uploaded file
-  const filenameunq = req.file.originalname;
+//   // Save the uploaded PDF to the pdfDir
+//   const pdfFilePath = path.join(pdfDir, 'uploaded.pdf');
+//   fs.writeFileSync(pdfFilePath, req.file.buffer);
 
-  // Convert the uploaded PDF to images
-  // await convertToImages( pdfFilePath, imageDir, filenameunq);
-  const FileDatas = await convertToImages(pdfFilePath, imageDir, filenameunq);
+//   // Get the original filename from the uploaded file
+//   const filenameunq = req.file.originalname;
 
-  // Send a response to the client with the list of image names
-  return res.status(200).json({ message: 'File uploaded and converted successfully', FileDatas });
+//   // Convert the uploaded PDF to images
+//   // await convertToImages( pdfFilePath, imageDir, filenameunq);
+//   const FileDatas = await convertToImages(pdfFilePath, imageDir, filenameunq);
+
+//   // Send a response to the client with the list of image names
+//   return res.status(200).json({ message: 'File uploaded and converted successfully', FileDatas });
 
 
-});
+// });
 
-const convertToImages = async ( pdfPath, outputDir, filenameunq) => {
-  const fileExtension = filenameunq.split('.').pop();
-  const uniqueFilename = `${Date.now()}.${fileExtension}`;
-  const pageInfo = await pdfPoppler.info(pdfPath);
-  console.log(pageInfo.pages)
 
-  const options = {
-    format: 'png',
-    out_dir: outputDir,
-    out_prefix: uniqueFilename,
-    page: null,
-  };
+
+
+// const convertToImages = async ( pdfPath, outputDir, filenameunq) => {
+//   const fileExtension = filenameunq.split('.').pop();
+//   const uniqueFilename = `${Date.now()}.${fileExtension}`;
+//   const pageInfo = await pdfPoppler.info(pdfPath);
+//   console.log(pageInfo.pages)
+
+//   const options = {
+//     format: 'png',
+//     out_dir: outputDir,
+//     out_prefix: uniqueFilename,
+//     page: null,
+//   };
  
 
-  try {
-    const result = await pdfPoppler.convert(pdfPath, options)
+//   try {
+//     const result = await pdfPoppler.convert(pdfPath, options)
 
-    // Create an array of image names based on page numbers
-    // const imageNames = Array.from({ length: pageInfo.pages }, (_, index) =>
-    //   `${uniqueFilename}-${index + 1}.png`
-    // );
-    const padWithZero = (number) => (number < 10 ? `0${number}` : number);
 
-const imageNames = Array.from({ length: pageInfo.pages }, (_, index) =>
-  `${uniqueFilename}-${padWithZero(index + 1)}.png`
-);
+    
+    
 
-    return imageNames
+//     const imageNames = Array.from({ length: pageInfo.pages }, (_, index) => {
+//       const pageNumber = index + 1;
+//       console.log('pgggg')
+//       console.log(pageNumber)
+//       console.log('pgggg')
+//       return `${uniqueFilename}-${pageNumber < 10 ? `${pageNumber}` : pageNumber}.png`;
+//     });
+
+//     // const padWithZero = (number) => (number < 10 ? `0${number}` : `${number}`);
+
+//     // const imageNames = Array.from({ length: pageInfo.pages }, (_, index) =>
+//     //   `${uniqueFilename}-${padWithZero(index + 1)}.png`
+//     // );
+//     console.log(imageNames);
+//     return imageNames;
+    
   
-  } catch (error) {
-    console.error('Error converting PDF to images:', error);
-    throw error; // Propagate the error to handle it in the route handler
-  }
-};
+//   } catch (error) {
+//     console.error('Error converting PDF to images:', error);
+//     throw error; // Propagate the error to handle it in the route handler
+//   }
+// };
 
 
 module.exports = router;

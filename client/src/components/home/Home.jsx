@@ -94,7 +94,8 @@ setNewImgUrl(updatedImgUrl)
      
      {
 addLogo?( <div className="createPdf">
-  <IconPlusCircle onClick={handleIconClick} />
+ 
+  <IconPlusCircle onClick={handleIconClick} className="iconLogoplus" />
   <input
         type='file'
         ref={fileInputRef}
@@ -106,9 +107,12 @@ addLogo?( <div className="createPdf">
 </div> ):(
   <div className="EditPdf">
 {
-loading? ( <div className="loadingicon">
-  loading.....
-</div> ):
+loading? (
+<div className="loading-screen">
+<div className="loader"></div>
+<p>Loading...</p>
+</div>
+):
 ( <div className="pdfImg">
 {imgUrl.map((url, index) => (
 <div className="pdfImageboxes" key={index}>
