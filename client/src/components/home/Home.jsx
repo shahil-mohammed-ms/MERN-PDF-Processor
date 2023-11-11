@@ -2,7 +2,7 @@ import {React,useState,useRef} from 'react'
 import axios from '../../axios'
 import IconPlusCircle from '../../assets/pluscircle/PlusCircle'
 import './Home.css'
-
+import './HomeMobile.css'
 
 
 function Home() {
@@ -92,13 +92,8 @@ setNewImgUrl(updatedImgUrl)
 const createButton =async(e)=>{
 e.preventDefault()
 try {
-
-//  const newarray= await Promise.all(newImgUrl.map((fileName) => 'public/files/image/' + fileName))
-// console.log('object')
-//  console.log(newarray)
-// console.log('object')
   const response =await axios.post('/api/pdf/convertToPDF',newImgUrl)
-  setPdfBaseName(response.data.pdfBaseName)
+  setPdfBaseName(response.data.Datas.pdfBaseName)
   setDownloadBox(false)
   console.log('from server dwd',response.data)
 

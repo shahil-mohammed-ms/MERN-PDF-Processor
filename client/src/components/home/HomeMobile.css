@@ -1,0 +1,216 @@
+@media (max-width: 767px) {
+
+  
+.home-Main{
+  height: 100vh;
+    width: 100vw;
+    background-color: lightgray;
+    /* display: none; */
+  }
+  .home-Content{
+    
+  
+  }
+  .createPdf{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+    width: 100vw;
+  justify-content: center;
+  align-items: center;
+  
+  }
+  
+  
+  .EditPdf{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+  }
+  
+  .pdfImg{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+  flex-wrap: wrap;
+  background-color: lightgray;
+  gap: 10px;
+  padding: 20px;
+  justify-content: flex-start;
+  
+  }
+  
+  .pdfImageboxes{
+    height: 350px;
+    width: 300px;
+    border: 1px solid black;
+    margin-left: 70px;
+  }
+  .pdfImgs{
+  
+    height: 100%;
+    width: 100%;
+  }
+  .imgcheckbox{
+  position: absolute;
+  margin-left: 0.2em;
+  margin-top: 0.3em;
+  
+  }
+  .checkbox{
+    height: 15px !important;
+    width: 15px !important;
+  }
+  .btnbox{
+  z-index: 1;
+  height: 35px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 2em;
+  
+  }
+  /* Styles for the cancel button */
+  .cancelButton {
+    background-color: red;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Add transitions for background color and transform */
+  }
+  
+  /* Change background color on hover */
+  .cancelButton:hover {
+    background-color: darkred;
+  }
+  
+  /* Scale down on click */
+  .cancelButton:active {
+    transform: scale(0.95);
+  }
+  
+  /* Styles for the create button */
+  .createButton {
+    background-color: blue;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px; /* Add some margin to separate the buttons */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Add transitions for background color and transform */
+  }
+  
+  /* Change background color on hover */
+  .createButton:hover {
+    background-color: darkblue;
+  }
+  
+  /* Scale down on click */
+  .createButton:active {
+    transform: scale(0.95);
+  }
+  
+  .loading-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+  }
+  
+  .loader {
+    border: 8px solid #3498db;
+    border-radius: 50%;
+    border-top: 8px solid #f4f4f4;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .loading-screen p {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #333;
+  }
+  
+  .main-content {
+    /* Your main content styles */
+    padding: 20px;
+  }
+  
+  
+  
+  
+  .iconLogoplus {
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 50%;
+    transition: background-color 0.3s, color 0.3s, transform 0.1s;
+  
+    /* Add other styles as needed */
+  }
+  
+  .iconLogoplus:hover {
+    background-color: #3498db26;
+    color: #fff;
+    border: 2px solid #3498db26;
+  }
+  
+  .iconLogoplus:active {
+    transform: scale(0.95); /* Add a slight scale effect on pressing */
+  }
+  
+  .downloadbox {
+    display: flex;
+    justify-content: center;
+  align-items: center;
+    width: 80vw;
+    height: 100px;
+    background-color: #fff;
+    position: fixed;
+    top: 35vh;
+    left: 50px !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
+    z-index: 1000;
+  }
+  
+  .downloadbox:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  
+  .dowbtn {
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .dowbtn:hover {
+    background-color: darkblue;
+  }
+  
+  .dowbtn:active {
+    transform: scale(0.95);
+  }
+}

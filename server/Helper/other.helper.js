@@ -94,7 +94,7 @@ otherHelper.convertToPdf = async(res,pdfDoc,NewpdfPath,pdfBaseName,images)=>{
     
     pdfStream.on('finish', () => {
       
-      res.json({ success: true, pdfPath: NewpdfPath,pdfBaseName });
+    return  
     });
   
     // Handle errors
