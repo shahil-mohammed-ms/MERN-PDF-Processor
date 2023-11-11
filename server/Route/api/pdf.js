@@ -10,10 +10,6 @@ const PDFDocument = require('pdfkit');
 const { v4: uuidv4 } = require('uuid');
 const axios = require('axios');
 
-
-
-
-
 //for converting pdf to images
 
 const pdfDir = path.resolve(__dirname, '..', '..', 'public', 'files', 'pdf');

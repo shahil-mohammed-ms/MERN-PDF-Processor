@@ -48,12 +48,12 @@ function Signin() {
 
     try {
       // Make a POST request to your server endpoint with the user's credentials
-      const response = await axios.post('/UserSignup', {
+      const response = await axios.post('/api/auth/signin', {
         name,
         email,
         password,
       });
-      navigate('/Userlogin')
+      navigate('/login')
     
     } catch (error) {
       // Handle authentication errors (e.g., display error message)

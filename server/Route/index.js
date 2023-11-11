@@ -9,5 +9,10 @@ router.use('/demo',demoRoute)
 const pdfRoute = require('./api/pdf')
 router.use('/pdf',pdfRoute)
 
+//All authentication routes
+
+const authRoute = require('./api/auth')
+router.use('/auth',authRoute)
+
 
 module.exports = router;

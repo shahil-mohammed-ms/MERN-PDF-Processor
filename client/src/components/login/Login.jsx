@@ -38,19 +38,19 @@ function Login() {
     }
 
     try {
-      const response = await axios.post('/UserLogin', {
+      const response = await axios.post('/api/auth/login', {
         email,
         password,
       });
 
-      const token = response.data.token;
+      const token = response.data.Datas.token;
       localStorage.setItem('Usertoken', token);
       console.log(token);
       console.log('Login successful:', response.data);
 
       setEmail('');
       setPassword('');
-      navigate('/UserHome')
+      navigate('/home')
     } catch (error) {
       // Handle authentication errors (e.g., display error message)
 
