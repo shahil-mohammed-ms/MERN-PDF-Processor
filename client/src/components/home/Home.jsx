@@ -41,7 +41,7 @@ function Home() {
       });
       
       
-    setImgUrl(response.data.FileDatas)
+    setImgUrl(response.data.Datas)
      setLoading(false)
         // Set a flag when all images are loaded
         setAllImagesLoaded(true);

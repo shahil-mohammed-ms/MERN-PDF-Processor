@@ -6,20 +6,10 @@ const pdfModule = require('../../Modules/pdf/pdfController')
 
 const fs = require('fs');
 const pdfPoppler = require('pdf-poppler');
+const PDFDocument = require('pdfkit');
+const { v4: uuidv4 } = require('uuid');
+const axios = require('axios');
 
-// var Storage = multer.diskStorage({
-//   destination: "./public/files/pdf",
-//   filename: (req, file, cb) => {
-//     // Extract the original file extension
-//     const fileExtension = file.originalname.split(".").pop();
-
-//     // Generate a unique filename based on the current timestamp
-//     const uniqueFilename = `${Date.now()}.${fileExtension}`;
-
-//     // Set the filename for storing the image
-//     cb(null, uniqueFilename);
-//   },
-// });
 var Storage = multer.diskStorage({
   destination: function (req, file, cb) {
     // Resolve the absolute path for the destination
@@ -42,10 +32,8 @@ var upload = multer({
   storage: Storage,
 });
 
-// for managing pdf upload to storage
+// for managing pdf upload to storage test
 router.post('/fileupload',upload.single('file'),pdfModule.fileUpload)
-
-
 
 
 
@@ -63,78 +51,71 @@ const uploadpdf = multer({ storage: storagepdf });
 
 router.post('/uploadpdf', uploadpdf.single('pdfFile'),pdfModule.ConvertPdfToImage)
 
-// router.post('/uploadpdf', uploadpdf.single('pdfFile'), async (req, res) => {
-//   // Assuming the input field for the file is named 'pdfFile'
-//   console.log(req.file);
-
-//   // Check if a file was provided
-//   if (!req.file) {
-//     return res.status(400).send('No file uploaded.');
-//   }
-
-//   // Save the uploaded PDF to the pdfDir
-//   const pdfFilePath = path.join(pdfDir, 'uploaded.pdf');
-//   fs.writeFileSync(pdfFilePath, req.file.buffer);
-
-//   // Get the original filename from the uploaded file
-//   const filenameunq = req.file.originalname;
-
-//   // Convert the uploaded PDF to images
-//   // await convertToImages( pdfFilePath, imageDir, filenameunq);
-//   const FileDatas = await convertToImages(pdfFilePath, imageDir, filenameunq);
-
-//   // Send a response to the client with the list of image names
-//   return res.status(200).json({ message: 'File uploaded and converted successfully', FileDatas });
 
 
-// });
+
+// conv to pdf 
 
 
 
 
-// const convertToImages = async ( pdfPath, outputDir, filenameunq) => {
-//   const fileExtension = filenameunq.split('.').pop();
-//   const uniqueFilename = `${Date.now()}.${fileExtension}`;
-//   const pageInfo = await pdfPoppler.info(pdfPath);
-//   console.log(pageInfo.pages)
-
-//   const options = {
-//     format: 'png',
-//     out_dir: outputDir,
-//     out_prefix: uniqueFilename,
-//     page: null,
-//   };
- 
-
-//   try {
-//     const result = await pdfPoppler.convert(pdfPath, options)
+const NewCreatedpdfpdfDir = path.resolve(__dirname, '..', '..', 'public', 'files', 'NewCreatedpdf');
+fs.mkdirSync(NewCreatedpdfpdfDir, { recursive: true });
 
 
-    
-    
+router.post('/convertToPDF', async (req, res) => {
+  console.log('API reached');
 
-//     const imageNames = Array.from({ length: pageInfo.pages }, (_, index) => {
-//       const pageNumber = index + 1;
-//       console.log('pgggg')
-//       console.log(pageNumber)
-//       console.log('pgggg')
-//       return `${uniqueFilename}-${pageNumber < 10 ? `${pageNumber}` : pageNumber}.png`;
-//     });
+  // Example image paths in the public folder
+  const images = [
+    'public/files/image/1699694248932.pdf-1.png',
+    'public/files/image/1699694248932.pdf-2.png',
+  ];
 
-//     // const padWithZero = (number) => (number < 10 ? `0${number}` : `${number}`);
+  // Create a PDF document
+  const pdfDoc = new PDFDocument();
+  const pdfBaseName = uuidv4();
+  console.log('uuid is ', pdfBaseName);
+  const NewpdfPath = path.join(NewCreatedpdfpdfDir, `${pdfBaseName}.pdf`);
+  const pdfStream = fs.createWriteStream(NewpdfPath);
 
-//     // const imageNames = Array.from({ length: pageInfo.pages }, (_, index) =>
-//     //   `${uniqueFilename}-${padWithZero(index + 1)}.png`
-//     // );
-//     console.log(imageNames);
-//     return imageNames;
-    
-  
-//   } catch (error) {
-//     console.error('Error converting PDF to images:', error);
-//     throw error; // Propagate the error to handle it in the route handler
-//   }
-// };
+  // Pipe the PDF document to the file
+  pdfDoc.pipe(pdfStream);
+
+  // Embed each image in the PDF
+  for (const imagePath of images) {
+    try {
+      // Read the image from the local file system
+      const imageBuffer = fs.readFileSync(path.join(__dirname, '..', '..', imagePath));
+
+      // Add a new page only if there is content to add
+      if (pdfDoc.page.count > 0) {
+        pdfDoc.addPage();
+      }
+
+      // Embed the image in the PDF
+      pdfDoc.image(imageBuffer, 0, 0, { width: 600 });
+    } catch (error) {
+      console.error('Error reading image:', error);
+      res.status(500).json({ success: false, error: 'Internal Server Error' });
+      return;
+    }
+  }
+
+  // Finalize the PDF and close the file stream
+  pdfDoc.end();
+  pdfStream.on('finish', () => {
+    res.json({ success: true, pdfPath: NewpdfPath });
+  });
+
+  // Handle errors
+  pdfStream.on('error', (error) => {
+    console.error('Error creating PDF:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  });
+});
+
+
 
 
 module.exports = router;

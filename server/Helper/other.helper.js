@@ -2,11 +2,9 @@ const pdfPoppler = require('pdf-poppler');
 const otherHelper = {};
 
 otherHelper.convertToImages = async ( pdfPath, outputDir, filenameunq) => {
-  console.log('funct called otherHelper.convertToImages')
   const fileExtension = filenameunq.split('.').pop();
   const uniqueFilename = `${Date.now()}.${fileExtension}`;
   const pageInfo = await pdfPoppler.info(pdfPath);
-  console.log('page info ',pageInfo.pages)
 
   const options = {
     format: 'png',
@@ -51,9 +49,9 @@ const imageNames = Array.from({ length: pageInfo.pages }, (_, index) =>
   }
 };
 
-otherHelper.sendResponse = async (res)=>{
-
-res.send('final test router')
+otherHelper.sendResponse = async (res,message,Datas)=>{
+console.log(message)
+  return res.status(200).json({ message, Datas });
 
 
 }
