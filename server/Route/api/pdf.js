@@ -65,12 +65,10 @@ fs.mkdirSync(NewCreatedpdfpdfDir, { recursive: true });
 
 router.post('/convertToPDF', async (req, res) => {
   console.log('API reached');
+console.log(req.body)
+const imageFileNames = req.body;
+const images =await Promise.all(imageFileNames.map((fileName) => 'public/files/image/' + fileName));
 
-  // Example image paths in the public folder
-  const images = [
-    'public/files/image/1699694248932.pdf-1.png',
-    'public/files/image/1699694248932.pdf-2.png',
-  ];
 
   // Create a PDF document
   const pdfDoc = new PDFDocument();
@@ -83,15 +81,21 @@ router.post('/convertToPDF', async (req, res) => {
   pdfDoc.pipe(pdfStream);
 
   // Embed each image in the PDF
+  let isFirstImage = true; 
   for (const imagePath of images) {
     try {
       // Read the image from the local file system
       const imageBuffer = fs.readFileSync(path.join(__dirname, '..', '..', imagePath));
 
       // Add a new page only if there is content to add
-      if (pdfDoc.page.count > 0) {
+      // if (pdfDoc.page.count > 0) {
+      //  pdfDoc.addPage();
+      // }
+      if (!isFirstImage) {
         pdfDoc.addPage();
       }
+  // Set the flag to false after processing the first image
+  isFirstImage = false;
 
       // Embed the image in the PDF
       pdfDoc.image(imageBuffer, 0, 0, { width: 600 });

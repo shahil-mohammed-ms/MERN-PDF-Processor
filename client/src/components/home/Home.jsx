@@ -86,6 +86,30 @@ setNewImgUrl(updatedImgUrl)
   });
 };
 
+// api to convert selected images to pdf
+const createButton =async(e)=>{
+e.preventDefault()
+try {
+
+//  const newarray= await Promise.all(newImgUrl.map((fileName) => 'public/files/image/' + fileName))
+// console.log('object')
+//  console.log(newarray)
+// console.log('object')
+  const response =await axios.post('/api/pdf/convertToPDF',newImgUrl)
+
+  console.log(response.data)
+
+} catch (error) {
+  console.log(error)
+}
+
+
+}
+const cancelButton =async(e)=>{
+  e.preventDefault()
+
+}
+
 
   return (
     <div className='home-Main' >
@@ -136,8 +160,8 @@ loading? (
 ))}
 
 <div className='btnbox'>
-  <button className="cancelButton">Cancel</button>
-  <button className="createButton">Create</button>
+  <button className="cancelButton" onClick={(e)=>{cancelButton(e)}} >Cancel</button>
+  <button className="createButton" onClick={(e)=>{createButton(e)}} >Create</button>
 </div>
 </div> )
 
