@@ -13,6 +13,8 @@ function Home() {
   const [checkboxNo, setCheckboxNo] = useState([]);
   const [newImgUrl,setNewImgUrl] = useState([])
   const [allImagesLoaded, setAllImagesLoaded] = useState(false);
+  const [downloadBox,setDownloadBox] = useState(true)
+  const [pdfBaseName,setPdfBaseName] = useState('')
   
   const fileInputRef = useRef(null);
 
@@ -96,8 +98,9 @@ try {
 //  console.log(newarray)
 // console.log('object')
   const response =await axios.post('/api/pdf/convertToPDF',newImgUrl)
-
-  console.log(response.data)
+  setPdfBaseName(response.data.pdfBaseName)
+  setDownloadBox(false)
+  console.log('from server dwd',response.data)
 
 } catch (error) {
   console.log(error)
@@ -110,11 +113,40 @@ const cancelButton =async(e)=>{
 
 }
 
+// download button
+
+const handleDownloadPdf = async (e) => {
+  e.preventDefault()
+  try {
+    // Assuming you have the URL for the PDF on the server
+    console.log(pdfBaseName+'.pdf')
+
+    // Make a request to download the PDF using Axios
+    const response = await axios.get(`http://localhost:5000/image/files/newCreatedPdf/${pdfBaseName+'.pdf'}`, {
+      responseType: 'blob', // Set the response type to blob
+    });
+
+    // Create a download link
+    const downloadLink = document.createElement('a');
+    downloadLink.href = window.URL.createObjectURL(new Blob([response.data]));
+    downloadLink.download = 'downloaded-file.pdf';
+
+    // Trigger the download
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+
+    // Clean up the download link
+    document.body.removeChild(downloadLink);
+  } catch (error) {
+    console.error('Error downloading PDF:', error);
+  }
+};
+
 
   return (
     <div className='home-Main' >
       
-      <div className="home-Content">
+      {downloadBox? <div className="home-Content">
      
      {
 addLogo?( <div className="createPdf">
@@ -173,7 +205,13 @@ loading? (
      }
   
   
-      </div>
+      </div>:(
+        <div className="downloadbox">
+<span className="dowdbtnspan">
+  <button className="dowbtn" onClick={(e)=>{handleDownloadPdf(e)}} >Download Pdf</button>
+</span>
+        </div>
+      )}
 
       
      
