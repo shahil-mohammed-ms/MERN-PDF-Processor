@@ -33,12 +33,14 @@ function Home() {
 
     const formData = new FormData();
     formData.append('pdfFile', selectedFile);
-
+    const storedToken = localStorage.getItem('Usertoken');
     try {
+     console.log('token is ',storedToken)
      
       const response = await axios.post('/api/pdf/uploadpdf', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${storedToken}`
         },
       });
       
@@ -91,8 +93,15 @@ setNewImgUrl(updatedImgUrl)
 // api to convert selected images to pdf
 const createButton =async(e)=>{
 e.preventDefault()
+const storedToken = localStorage.getItem('Usertoken');
 try {
-  const response =await axios.post('/api/pdf/convertToPDF',newImgUrl)
+ // const response =await axios.post('/api/pdf/convertToPDF',newImgUrl)
+ const response = await axios.post('/api/pdf/convertToPDF', newImgUrl, {
+  headers: {
+    'Authorization': `Bearer ${storedToken}`
+  }
+});
+
   setPdfBaseName(response.data.Datas.pdfBaseName)
   setDownloadBox(false)
   console.log('from server dwd',response.data)
@@ -112,13 +121,17 @@ const cancelButton =async(e)=>{
 
 const handleDownloadPdf = async (e) => {
   e.preventDefault()
+  const storedToken = localStorage.getItem('Usertoken');
   try {
     // Assuming you have the URL for the PDF on the server
     console.log(pdfBaseName+'.pdf')
 
     // Make a request to download the PDF using Axios
     const response = await axios.get(`http://localhost:5000/image/files/newCreatedPdf/${pdfBaseName+'.pdf'}`, {
-      responseType: 'blob', // Set the response type to blob
+      responseType: 'blob',
+      headers: {
+        'Authorization': `Bearer ${storedToken}`
+      } // Set the response type to blob
     });
 
     // Create a download link

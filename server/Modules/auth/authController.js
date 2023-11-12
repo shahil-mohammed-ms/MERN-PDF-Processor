@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const UserAuth = require('../../src/db/Models/UserSchema')
 const otherHelper = require('../../Helper/other.helper')
+const { JWT_SECRET } = process.env;
 const authController = {}
 
 
@@ -31,10 +32,10 @@ authController.Signin=async(req,res)=>{
     await newUser.save();
 
     // Create a JWT token for the new user
-    const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
       expiresIn: '1h',
     });
-
+console.log(token)
     otherHelper.sendResponse(res,'Sign up success',token)
 
     // res.status(201).json({ token });
@@ -62,10 +63,10 @@ authController.Login=async(req,res)=>{
     }
 
     // Create a JWT token for the authenticated user
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
       expiresIn: '1h',
     });
-
+    console.log(token)
     // res.json({ token });
     otherHelper.sendResponse(res,'Login success',token)
   } catch (error) {

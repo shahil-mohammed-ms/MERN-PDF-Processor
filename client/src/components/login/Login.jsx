@@ -43,9 +43,9 @@ function Login() {
         password,
       });
 
-      const token = response.data.Datas.token;
-      localStorage.setItem('Usertoken', token);
-      console.log(token);
+      const token = response.data.Datas;
+      localStorage.setItem('Usertoken', token);  // set token in local storage
+      console.log(response.data);
       console.log('Login successful:', response.data);
 
       setEmail('');

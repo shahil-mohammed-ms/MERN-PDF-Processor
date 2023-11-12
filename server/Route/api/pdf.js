@@ -3,6 +3,7 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const pdfModule = require('../../Modules/pdf/pdfController')
+const auth = require('../../src/Middleware/UserAuth')
 
 const fs = require('fs');
 const pdfPoppler = require('pdf-poppler');
@@ -22,12 +23,12 @@ fs.mkdirSync(imageDir, { recursive: true });
 const storagepdf = multer.memoryStorage();
 const uploadpdf = multer({ storage: storagepdf });
 
-router.post('/uploadpdf', uploadpdf.single('pdfFile'),pdfModule.ConvertPdfToImage)
+router.post('/uploadpdf',auth, uploadpdf.single('pdfFile'),pdfModule.ConvertPdfToImage)
 
 
 //ConvertImageToPdf
 
-router.post('/convertToPDF',pdfModule.ConvertImageToPdf)
+router.post('/convertToPDF',auth,pdfModule.ConvertImageToPdf)
 
 
 module.exports = router;
