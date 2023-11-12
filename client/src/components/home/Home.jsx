@@ -1,4 +1,5 @@
 import {React,useState,useRef} from 'react'
+import { useNavigate,useLocation } from 'react-router-dom';
 import axios from '../../axios'
 import IconPlusCircle from '../../assets/pluscircle/PlusCircle'
 import './Home.css'
@@ -15,7 +16,7 @@ function Home() {
   const [allImagesLoaded, setAllImagesLoaded] = useState(false);
   const [downloadBox,setDownloadBox] = useState(true)
   const [pdfBaseName,setPdfBaseName] = useState('')
-  
+  const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
   const handleIconClick = () => {
@@ -52,6 +53,7 @@ function Home() {
       console.log('File uploaded successfully:', response.data);
     } catch (error) {
       console.error('Error uploading file:', error);
+      navigate('/error')
     }
   };
 
