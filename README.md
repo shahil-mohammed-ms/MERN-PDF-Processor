@@ -5,6 +5,7 @@
 -jwt Authentication and Authorization
 -selecting pdf files and opening the image format(.png) for pdf page wise 
 -select each page with preffered order and create new pdf
+-Error handling
 ## Installation
 - `git clone <this_url> && cd <repo_name>`
 - install npm on client and server
